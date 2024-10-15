@@ -17,9 +17,21 @@ main: $(OBJ_FILES) main.o
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
-test: $(OBJ_FILES) $(TEST_FILES:.cpp=.o)
-	$(CXX) $(CXXFLAGS) -o test_vector $(OBJ_FILES) $(TEST_FILES:.cpp=.o)
+test: test_vector test_matrix
+
+test_vector: $(OBJ_FILES) test/test_vector.o
+	$(CXX) $(CXXFLAGS) -o test_vector $(OBJ_FILES) test/test_vector.o
 	./test_vector
+
+test/test_vector.o: test/test_vector.cpp
+	$(CXX) $(CXXFLAGS) -c test/test_vector.cpp -o test/test_vector.o
+
+test_matrix: $(OBJ_FILES) test/test_matrix.o
+	$(CXX) $(CXXFLAGS) -o test_matrix $(OBJ_FILES) test/test_matrix.o
+	./test_matrix
+
+test/test_matrix.o: test/test_matrix.cpp
+	$(CXX) $(CXXFLAGS) -c test/test_matrix.cpp -o test/test_matrix.o
 
 clean:
 	rm -f $(SRC_DIR)/*.o main test_vector main.o $(TEST_DIR)/*.o
