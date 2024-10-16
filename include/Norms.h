@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include "Vector.h"
+#include "Matrix.h"
 
 namespace norms
 {
@@ -38,6 +39,52 @@ namespace norms
         }
         return norm;
     }
+}
+
+template <typename T>
+T rowsum_norm(const Matrix<T>& A)
+{
+    T norm = static_cast<T>(0);
+    for(size_t row = 0; row < A.getRows(); row++)
+    {
+        T sum = static_cast<T>(0);
+        for(size_t col = 0; col < A.getCols(); col++)
+        {
+            sum += std::abs(A.at(row, col));
+        }
+        norm = std::max(norm, sum);
+    }
+    return norm;
+}
+
+template <typename T>
+T colsum_norm(const Matrix<T>& A)
+{
+    T norm = static_cast<T>(0);
+    for(size_t col = 0; col < A.getCols(); col++)
+    {
+        T sum = static_cast<T>(0);
+        for(size_t row = 0; row < A.getRows(); row++)
+        {
+            sum += std::abs(A.at(row, col));
+        }
+        norm = std::max(norm, sum);
+    }
+    return norm;
+}
+
+template <typename T>
+T frobenius_norm(const Matrix<T>& A)
+{
+    T norm = static_cast<T>(0);
+    for(size_t row = 0; row < A.getRows(); row++)
+    {
+        for(size_t col = 0; col < A.getCols(); col++)
+        {
+            norm += A.at(row, col) * A.at(row, col);
+        }
+    }
+    return std::sqrt(norm);
 }
 
 #endif // NORMS_H
