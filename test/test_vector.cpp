@@ -1,6 +1,4 @@
-#include <iostream>
-#include <cassert>
-#include "../include/Vector.h"
+#include "test_vector.h"
 
 void test_vector_addition()
 {
@@ -48,12 +46,11 @@ void test_vector_subtraction()
     std::cout << "test_vector_subtraction passed!" << std::endl;
 }
 
-int main()
+void test_vector()
 {
     test_vector_addition();
     test_vector_scalar_multiplication();
     test_vector_subtraction();
 
     std::cout << "All tests passed!" << std::endl;
-    return 0;
 }

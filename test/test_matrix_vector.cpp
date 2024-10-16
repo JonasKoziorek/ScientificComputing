@@ -1,8 +1,4 @@
-#include <iostream>
-#include <cassert>
-#include "../include/Matrix.h"
-#include "../include/Vector.h"
-#include "../include/MatrixVector.h"
+#include "test_matrix_vector.h"
 
 void test_matrix_vector_multiplication()
 {
@@ -46,11 +42,10 @@ void test_matrix_vector_invalid_dimensions()
     }
 }
 
-int main()
+void test_matrix_vector()
 {
     test_matrix_vector_multiplication();
     test_matrix_vector_invalid_dimensions();
 
     std::cout << "All tests passed!" << std::endl;
-    return 0;
 }

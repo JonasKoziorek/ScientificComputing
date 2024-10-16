@@ -1,6 +1,4 @@
-#include <iostream>
-#include <cassert>
-#include "../include/Matrix.h"
+#include "test_matrix.h"
 
 void test_matrix_addition()
 {
@@ -58,7 +56,7 @@ void test_matrix_pretty_printing()
     std::cout << "Matrix pretty printing test passed!" << std::endl;
 }
 
-int main()
+void test_matrix()
 {
     test_matrix_addition();
     test_matrix_subtraction();
@@ -66,5 +64,4 @@ int main()
     test_matrix_pretty_printing();
 
     std::cout << "All tests passed!" << std::endl;
-    return 0;
 }
