@@ -6,10 +6,10 @@
 #include "AbstractSparseMatrix.h"
 
 template <typename T>
-class CSRMatrix : public AbstractSparseMatrix<T>
+class CSR : public AbstractSparseMatrix<T>
 {
 public:
-    CSRMatrix(size_t rows, size_t cols, 
+    CSR(size_t rows, size_t cols, 
         const std::vector<T>& values,
         const std::vector<size_t>& col_index, 
         const std::vector<size_t>& row_index
@@ -32,7 +32,7 @@ private:
 };
 
 template <typename T>
-CSRMatrix<T>::CSRMatrix(size_t rows, size_t cols, 
+CSR<T>::CSR(size_t rows, size_t cols, 
     const std::vector<T>& values, 
     const std::vector<size_t>& col_index, 
     const std::vector<size_t>& row_index
@@ -57,7 +57,7 @@ CSRMatrix<T>::CSRMatrix(size_t rows, size_t cols,
 }
 
 template <typename T>
-T& CSRMatrix<T>::at(size_t row, size_t col)
+T& CSR<T>::at(size_t row, size_t col)
 {
     for (size_t idx = row_index[row]; idx < row_index[row + 1]; ++idx)
     {
@@ -70,7 +70,7 @@ T& CSRMatrix<T>::at(size_t row, size_t col)
 }
 
 template <typename T>
-const T& CSRMatrix<T>::at(size_t row, size_t col) const
+const T& CSR<T>::at(size_t row, size_t col) const
 {
     for (size_t idx = row_index[row]; idx < row_index[row + 1]; ++idx)
     {
@@ -83,7 +83,7 @@ const T& CSRMatrix<T>::at(size_t row, size_t col) const
 }
 
 template <typename T>
-void CSRMatrix<T>::print(std::ostream& os) const
+void CSR<T>::print(std::ostream& os) const
 {
     os << "CSR Sparse Matrix(" << rows << "x" << cols << "):\n";
     for (size_t row = 0; row < rows; ++row)

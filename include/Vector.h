@@ -10,6 +10,7 @@ class Vector
     public:
         std::vector<T> data;
         Vector(const std::vector<T>& data);
+        Vector(size_t size);
 
         template <typename U>
         friend std::ostream& operator<<(std::ostream& os, const Vector<U>& v);
@@ -21,6 +22,12 @@ template <typename T>
 Vector<T>::Vector(const std::vector<T>& data)
 {
     this->data = data;
+}
+
+template <typename T>
+Vector<T>::Vector(size_t size)
+{
+    this->data = std::vector<T>(size);
 }
 
 template <typename T>

@@ -2,6 +2,7 @@
 #define MATRIXVECTOR_H
 
 #include "Matrix.h"
+#include "CSR.h"
 #include "Vector.h"
 
 
@@ -25,6 +26,29 @@ Vector<T> operator*(const Matrix<T>& A, const Vector<T>& b)
     }
 
     return Vector<T>(result);
+}
+
+template <typename T>
+Vector<T> operator*(const CSR<T>& matrix, const Vector<T>& x)
+{
+    if (matrix.getCols() != x.size())
+    {
+        throw std::invalid_argument("Invalid dimensions for matrix-vector multiplication.");
+    }
+
+    size_t dim = matrix.row_index.size()-1;
+    Vector<T> result(dim);
+    for(size_t i = 0; i < dim; i++)
+    {
+        double sum = 0;
+        for(size_t j = matrix.row_index[i]; j < matrix.row_index[i+1]; j++)
+        {
+            int id = matrix.col_index[j];
+            sum += matrix.values[j] * x.at(id);
+        }
+        result.at(i) = sum;
+    }
+    return result;
 }
 
 #endif // MATRIXVECTOR_H
