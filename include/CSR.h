@@ -94,4 +94,22 @@ void CSR<T>::print(std::ostream& os) const
     }
 }
 
+template <typename T>
+CSR<T> operator*(const T a, const CSR<T>& A)
+{
+    std::vector<T> result_data(A.values.size());
+    for (size_t i = 0; i < A.values.size(); ++i)
+    {
+        result_data[i] = A.values[i] * a;
+    }
+
+    return CSR<T>(A.rows, A.cols, result_data, A.col_index, A.row_index);
+}
+
+template <typename T>
+CSR<T> operator*(const CSR<T>& A, const T a)
+{
+    return a * A;
+}
+
 #endif // CSR_H

@@ -20,7 +20,7 @@ void test_cg()
     Vector<double> x = CG(A, b, 1000, 1e-9);
 
     // Check if the solution is close to the expected solution
-    assert(norms::l2_norm(x - expected) < 1e-9);
+    assert(l2_norm(x - expected) < 1e-9);
     std::cout << "CG test passed!" << std::endl;
 }
 
