@@ -1,0 +1,98 @@
+#ifndef CSR_H
+#define CSR_H
+
+#include <vector>
+#include <iostream>
+#include "AbstractSparseMatrix.h"
+
+template <typename T>
+class CSRMatrix : public AbstractSparseMatrix<T>
+{
+public:
+    CSRMatrix(size_t rows, size_t cols, 
+        const std::vector<T>& values,
+        const std::vector<size_t>& col_index, 
+        const std::vector<size_t>& row_index
+    );
+
+    T& at(size_t row, size_t col) override;
+    const T& at(size_t row, size_t col) const override;
+
+    size_t getRows() const override { return rows; }
+    size_t getCols() const override { return cols; }
+
+    void print(std::ostream& os) const override;
+
+private:
+    size_t rows;
+    size_t cols;
+    std::vector<T> values;
+    std::vector<size_t> col_index;
+    std::vector<size_t> row_index;
+};
+
+template <typename T>
+CSRMatrix<T>::CSRMatrix(size_t rows, size_t cols, 
+    const std::vector<T>& values, 
+    const std::vector<size_t>& col_index, 
+    const std::vector<size_t>& row_index
+)
+{
+    if (values.size() != col_index.size() || row_index.size() != rows + 1)
+    {
+        throw std::invalid_argument("Invalid input");
+    }
+    for (size_t row = 0; row < rows; ++row)
+    {
+        if (row_index[row] > row_index[row + 1])
+        {
+            throw std::invalid_argument("Invalid input");
+        }
+    }
+    this->rows = rows;
+    this->cols = cols;
+    this->values = values;
+    this->col_index = col_index;
+    this->row_index = row_index;
+}
+
+template <typename T>
+T& CSRMatrix<T>::at(size_t row, size_t col)
+{
+    for (size_t idx = row_index[row]; idx < row_index[row + 1]; ++idx)
+    {
+        if (col_index[idx] == col)
+        {
+            return values[idx];
+        }
+    }
+    throw std::out_of_range("Element not found");
+}
+
+template <typename T>
+const T& CSRMatrix<T>::at(size_t row, size_t col) const
+{
+    for (size_t idx = row_index[row]; idx < row_index[row + 1]; ++idx)
+    {
+        if (col_index[idx] == col)
+        {
+            return values[idx];
+        }
+    }
+    throw std::out_of_range("Element not found");
+}
+
+template <typename T>
+void CSRMatrix<T>::print(std::ostream& os) const
+{
+    os << "CSR Sparse Matrix(" << rows << "x" << cols << "):\n";
+    for (size_t row = 0; row < rows; ++row)
+    {
+        for (size_t idx = row_index[row]; idx < row_index[row + 1]; ++idx)
+        {
+            os << "(" << row << ", " << col_index[idx] << ") = " << values[idx] << "\n";
+        }
+    }
+}
+
+#endif // CSR_H
