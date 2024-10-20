@@ -5,6 +5,7 @@
 #include "test_norms.h"
 #include "test_inner_product.h"
 #include "test_cg.h"
+#include "test_csr_matrix_vector.h"
 
 int main()
 {
@@ -15,5 +16,6 @@ int main()
     test_norms();
     test_inner_product();
     test_all_cg();
+    test_csr_matrix_vector();
     return 0;
 }

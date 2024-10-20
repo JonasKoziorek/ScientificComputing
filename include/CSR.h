@@ -23,7 +23,6 @@ public:
 
     void print(std::ostream& os) const override;
 
-private:
     size_t rows;
     size_t cols;
     std::vector<T> values;

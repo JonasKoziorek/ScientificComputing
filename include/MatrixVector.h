@@ -44,9 +44,9 @@ Vector<T> operator*(const CSR<T>& matrix, const Vector<T>& x)
         for(size_t j = matrix.row_index[i]; j < matrix.row_index[i+1]; j++)
         {
             int id = matrix.col_index[j];
-            sum += matrix.values[j] * x.at(id);
+            sum += matrix.values[j] * x.data.at(id);
         }
-        result.at(i) = sum;
+        result.data[i] = sum;
     }
     return result;
 }
