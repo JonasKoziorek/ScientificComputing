@@ -4,9 +4,10 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include "AbstractMatrix.h"
 
 template <typename T>
-class Matrix
+class Matrix : public AbstractMatrix<T>
 {
     public:
         std::vector<T> data;
@@ -17,14 +18,14 @@ class Matrix
         Matrix(const std::vector<T>& data, size_t rows, size_t cols);
         Matrix(size_t rows, size_t cols);
 
-        T& at(size_t row, size_t col);
-        const T& at(size_t row, size_t col) const;
+        T& at(size_t row, size_t col) override;
+        const T& at(size_t row, size_t col) const override;
 
-        template <typename U>
-        friend std::ostream& operator<<(std::ostream& os, const Matrix<U>& m);
+        size_t getRows() const override { return rows; }
+        size_t getCols() const override { return cols; }
 
-        size_t getRows() const { return rows; }
-        size_t getCols() const { return cols; }
+        void print(std::ostream& os) const override;
+
     private:
 };
 
@@ -72,11 +73,11 @@ const T& Matrix<T>::at(size_t row, size_t col) const {
 }
 
 template <typename T>
-std::ostream& operator<<(std::ostream& os, const Matrix<T>& m)
+void Matrix<T>::print(std::ostream& os) const
 {
     // Determine the maximum width needed for the elements
     size_t max_width = 0;
-    for (const auto& elem : m.data)
+    for (const auto& elem : this->data)
     {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(Matrix<T>::decimal_digits) << elem;
@@ -86,19 +87,18 @@ std::ostream& operator<<(std::ostream& os, const Matrix<T>& m)
 
     os << std::fixed << std::setprecision(Matrix<T>::decimal_digits);
     os << "[";
-    for (size_t i = 0; i < m.getRows(); ++i)
+    for (size_t i = 0; i < this->getRows(); ++i)
     {
         os << "[";
-        for (size_t j = 0; j < m.getCols(); ++j)
+        for (size_t j = 0; j < this->getCols(); ++j)
         {
-            os << std::setw(max_width) << m.data[i * m.getCols() + j];
-            if (j != m.getCols() - 1) os << ",  ";
+            os << std::setw(max_width) << this->at(i, j);
+            if (j != this->getCols() - 1) os << ",  ";
         }
         os << "]";
-        if (i != m.getRows() - 1) os << ",\n ";
+        if (i != this->getRows() - 1) os << ",\n ";
     }
     os << "]";
-    return os;
 }
 
 template <typename T>
